@@ -25,7 +25,7 @@ public class ProductValidator : AbstractValidator<ProductRequest>
 
         RuleFor(x => x.Name).Length(3, 255);
         RuleFor(x => x.Description).Length(4, 255).When(x => x.Description != String.Empty);
-        RuleFor(x => x.Price).ScalePrecision(2, 18);
+        RuleFor(x => x.Price).NotEmpty().NotNull().ScalePrecision(2, 18);
         RuleFor(x => x.CategoriesIds).Cascade(CascadeMode.Stop)
             .NotEmpty()
             .ForEach(x => x.GreaterThan(0))
