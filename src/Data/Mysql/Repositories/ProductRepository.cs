@@ -22,7 +22,7 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
         return await _db.Set<Product>()
             .Include(p => p.ProductCategories)
             .ThenInclude(pc => pc.Category)
-            .Where(p => p.DeletedAt == null)
+            //.Where(p => p.DeletedAt == null)
             .AsNoTracking()
             .ToListAsync();
     }
@@ -42,7 +42,7 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
         Product? product = await _db.Set<Product>()
             .Where(p => p.Id == id)
-            .Where(p => p.DeletedAt == null)
+            //.Where(p => p.DeletedAt == null)
             .Include(p => p.ProductCategories)
             .ThenInclude(pc => pc.Category)
             .AsNoTracking()

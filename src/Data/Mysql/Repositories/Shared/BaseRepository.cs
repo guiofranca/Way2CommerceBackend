@@ -2,11 +2,6 @@
 using Domain.Repositories.Interfaces.Shared;
 using Microsoft.EntityFrameworkCore;
 using Mysql.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mysql.Repositories.Shared;
 public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
@@ -20,7 +15,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
     public virtual async Task<IEnumerable<T>> GetAllAsync()
     {
         return await _db.Set<T>()
-            .Where(t => t.DeletedAt == null)
+            //.Where(t => t.DeletedAt == null)
             .AsNoTracking()
             .ToListAsync();
     }
@@ -29,8 +24,6 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
     {
         T? model = await _db.Set<T>()
             .Where(t => t.Id.Equals(id))
-            .Where(t => t.DeletedAt == null)
-            .AsNoTracking()
             .FirstOrDefaultAsync();
 
         if(model == null) throw new Exception($"Not found");
@@ -42,8 +35,6 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
     {
         IEnumerable<T> models = await _db.Set<T>()
             .Where(t => ids.Contains(t.Id))
-            .Where(t => t.DeletedAt == null)
-            .AsNoTracking()
             .ToListAsync();
 
         return models;
@@ -57,10 +48,9 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
         await _db.SaveChangesAsync();
     }
 
-    public virtual async Task<bool> DeleteAsync(int id)
+    public virtual async Task<bool> DeleteAsync(T model)
     {
-        T model = await GetByIdAsync(id);
-        if (model == null) return false;
+        if (model.DeletedAt.HasValue) return false;
             
         model.DeletedAt = DateTime.Now;
         await UpdateAsync(model);
@@ -73,6 +63,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
         T? model = await _db.Set<T>()
             .Where(t => t.Id.Equals(id))
             .Where(t => t.DeletedAt != null)
+            .IgnoreQueryFilters()
             .FirstOrDefaultAsync();
 
         if (model == null) throw new Exception($"Not found");

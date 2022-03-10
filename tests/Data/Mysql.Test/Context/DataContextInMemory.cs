@@ -10,20 +10,20 @@ namespace Mysql.Test.Context;
 public class DataContextInMemory
 {
     private readonly DataContext _dbContext;
-    private readonly SqliteConnection _connection;
 
     public DataContextInMemory()
     {
-        _connection = new SqliteConnection("DataSource=file:memdb1?mode=memory&cache=shared");
-        _connection.Open();
+        //SqliteConnection connection = new SqliteConnection("Data Source=InMemory;Mode=Memory;Cache=Shared");
+        SqliteConnection connection = new SqliteConnection("Data Source=InMemory;Mode=Memory");
+        connection.Open();
 
         var options = new DbContextOptionsBuilder<DataContext>()
-            .UseSqlite(_connection)
+            .UseSqlite(connection)
             .EnableSensitiveDataLogging()
             .Options;
 
         _dbContext = new DataContext(options);
-        //_dbContext.Database.Migrate();
+        _dbContext.Database.EnsureCreated();
     }
 
     public DataContext GetContext() => _dbContext;

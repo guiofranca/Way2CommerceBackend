@@ -10,11 +10,11 @@ public class ProductTest
 
     public ProductTest()
     {
-        _product = new Product("000001", "Product", "Test product", (decimal)15.25);
+        _product = new Product("000001", "Product", "Test product", 15.25m);
     }
 
     [Fact]
-    public void HavePropertyName()
+    public void HasPropertyName()
     {
         Assert.Equal("Product", _product.Name);
     }

@@ -68,7 +68,8 @@ public class ProductController : ControllerBase
     {
         try
         {
-            if(await _productRepository.DeleteAsync(id)) return Ok();
+            Product product = await _productRepository.GetByIdAsync(id);
+            if(await _productRepository.DeleteAsync(product)) return Ok();
             return BadRequest("Unable to delete");
         }
         catch (Exception ex)

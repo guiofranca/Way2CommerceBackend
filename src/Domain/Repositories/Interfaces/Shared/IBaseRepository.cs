@@ -14,7 +14,7 @@ namespace Domain.Repositories.Interfaces.Shared
         public Task<IEnumerable<T>> GetAllAsync();
         public Task<int> CreateAsync(T model);
         public Task UpdateAsync(T model);
-        public Task<bool> DeleteAsync(int id);
+        public Task<bool> DeleteAsync(T model);
         public Task<bool> RestoreAsync(int id);
     }
 }

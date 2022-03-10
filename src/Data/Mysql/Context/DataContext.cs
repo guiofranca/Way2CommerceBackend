@@ -36,6 +36,12 @@ public class DataContext : DbContext
         //     .ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         modelBuilder.Entity<ProductCategory>()
             .HasKey(pc => new { pc.ProductId, pc.CategoryId });
+
+        modelBuilder.Entity<Product>()
+            .HasQueryFilter(p => p.DeletedAt == null);
+
+        modelBuilder.Entity<Category>()
+            .HasQueryFilter(p => p.DeletedAt == null);
     }
 
     public DbSet<Product> Products { get; set; }
