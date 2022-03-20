@@ -8,16 +8,13 @@ namespace Domain.Models.Relations;
 
 public class ProductCategory
 {
-
-    public Product Product { get; set; }
     public int ProductId { get; set; }
-    public Category Category { get; set; }
     public int CategoryId { get; set; }
 
-    public ProductCategory(Product product, Category category)
+    public ProductCategory(int productId, int categoryId)
     {
-        Product = product;
-        Category = category;
+        ProductId = productId;
+        CategoryId = categoryId;
     }
 
     public ProductCategory() { }

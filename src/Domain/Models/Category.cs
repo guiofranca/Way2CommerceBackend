@@ -6,7 +6,6 @@ namespace Domain.Models
     public class Category : BaseModel
     {
         public string Name { get; set; } = string.Empty;
-        //public ICollection<Product> Products { get; set; } = new List<Product>();
-        public IEnumerable<ProductCategory> ProductCategories { get; set; }
+        public IEnumerable<Product> Products { get; set; } = new List<Product>();
     }
 }

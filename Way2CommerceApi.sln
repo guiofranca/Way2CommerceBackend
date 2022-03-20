@@ -15,11 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Api\Api.csproj",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{02C8FBC8-675C-4FB2-9001-39AF1E2871CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "tests\Domain.Tests\Domain.Tests.csproj", "{1965EFEA-DFB4-45BA-9813-80244F3181A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Tests", "tests\Domain.Tests\Domain.Tests.csproj", "{1965EFEA-DFB4-45BA-9813-80244F3181A5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{661BED31-6AED-4DC1-8458-3E006B84FBC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mysql.Test", "tests\Data\Mysql.Test\Mysql.Test.csproj", "{B08C7C5E-847A-445A-BD3C-C38247D63362}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mysql.Test", "tests\Data\Mysql.Test\Mysql.Test.csproj", "{B08C7C5E-847A-445A-BD3C-C38247D63362}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Tests", "tests\Api.Tests\Api.Tests\Api.Tests.csproj", "{0167B53A-DE1F-4E44-99B8-57E446CE110C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{B08C7C5E-847A-445A-BD3C-C38247D63362}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B08C7C5E-847A-445A-BD3C-C38247D63362}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B08C7C5E-847A-445A-BD3C-C38247D63362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0167B53A-DE1F-4E44-99B8-57E446CE110C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0167B53A-DE1F-4E44-99B8-57E446CE110C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0167B53A-DE1F-4E44-99B8-57E446CE110C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0167B53A-DE1F-4E44-99B8-57E446CE110C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{1965EFEA-DFB4-45BA-9813-80244F3181A5} = {02C8FBC8-675C-4FB2-9001-39AF1E2871CE}
 		{661BED31-6AED-4DC1-8458-3E006B84FBC7} = {02C8FBC8-675C-4FB2-9001-39AF1E2871CE}
 		{B08C7C5E-847A-445A-BD3C-C38247D63362} = {661BED31-6AED-4DC1-8458-3E006B84FBC7}
+		{0167B53A-DE1F-4E44-99B8-57E446CE110C} = {02C8FBC8-675C-4FB2-9001-39AF1E2871CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {72AA7CD4-ACDF-4413-B2C2-433F1E35D184}

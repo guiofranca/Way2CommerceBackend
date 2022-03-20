@@ -47,9 +47,9 @@ public class ProductController : ControllerBase
         //if(ModelState.IsValid) return Created(nameof(Get), productRequest);
         Product product = productRequest.MakeProductFromRequest();
         int id = await _productRepository.CreateAsync(product);
-        await _productRepository.SyncCategoriesAsync(product, productRequest.CategoriesIds);
+        await _productRepository.SyncCategoriesAsync(product, productRequest.CategoryIds);
 
-        return Ok(id);
+        return Created("", id);
     }
 
     //PATCH api/<ProductController>/5
@@ -58,7 +58,7 @@ public class ProductController : ControllerBase
     {
         Product product = productRequest.MakeProductFromRequest(id);
         await _productRepository.UpdateAsync(product);
-        await _productRepository.SyncCategoriesAsync(product, productRequest.CategoriesIds);
+        await _productRepository.SyncCategoriesAsync(product, productRequest.CategoryIds);
         return Ok();
     }
 

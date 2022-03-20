@@ -86,31 +86,31 @@ namespace Mysql.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Domain.Models.ProductCategory", b =>
+            modelBuilder.Entity("Domain.Models.Relations.ProductCategory", b =>
                 {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId", "CategoryId");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("CategoryId");
+                    b.HasKey("CategoryId", "ProductId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductCategories");
                 });
 
-            modelBuilder.Entity("Domain.Models.ProductCategory", b =>
+            modelBuilder.Entity("Domain.Models.Relations.ProductCategory", b =>
                 {
                     b.HasOne("Domain.Models.Category", "Category")
-                        .WithMany("ProductCategories")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Product", "Product")
-                        .WithMany("ProductCategories")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -118,16 +118,6 @@ namespace Mysql.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Domain.Models.Category", b =>
-                {
-                    b.Navigation("ProductCategories");
-                });
-
-            modelBuilder.Entity("Domain.Models.Product", b =>
-                {
-                    b.Navigation("ProductCategories");
                 });
 #pragma warning restore 612, 618
         }

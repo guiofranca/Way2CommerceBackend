@@ -9,15 +9,15 @@ public class ProductRequest
     public string Name { get; set; }
     public string Description { get; set; }
     public decimal Price { get; set; }
-    public ICollection<int> CategoriesIds { get; set; }
+    public ICollection<int> CategoryIds { get; set; }
 
-    public ProductRequest(string code, string name, string description, decimal price, ICollection<int> categoriesIds)
+    public ProductRequest(string code, string name, string description, decimal price, ICollection<int> categoryIds)
     {
         Code = code;
         Name = name;
         Description = description;
         Price = price;
-        CategoriesIds = categoriesIds;
+        CategoryIds = categoryIds;
     }
 
     public Product MakeProductFromRequest()

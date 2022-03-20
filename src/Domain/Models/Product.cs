@@ -10,25 +10,22 @@ namespace Domain.Models
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
-        //public virtual IEnumerable<Category> Categories { get; set; }
-        public virtual IEnumerable<ProductCategory> ProductCategories { get; set; }
-        public Product(string code, string name, string description, decimal price) //, IEnumerable<Category> categories)
+        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
+        public Product(string code, string name, string description, decimal price)
         {
             Code = code;
             Name = name;
             Description = description;
             Price = price;
-            //Categories = categories;
         }
 
-        public Product(int id, string code, string name, string description, decimal price) //, IEnumerable<Category> categories)
+        public Product(int id, string code, string name, string description, decimal price)
         {
             Id = id;
             Code = code;
             Name = name;
             Description = description;
             Price = price;
-            //Categories = categories;
         }
 
         public Product() { }

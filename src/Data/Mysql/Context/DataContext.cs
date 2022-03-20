@@ -34,8 +34,18 @@ public class DataContext : DbContext
     {
         // modelBuilder
         //     .ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        modelBuilder.Entity<ProductCategory>()
-            .HasKey(pc => new { pc.ProductId, pc.CategoryId });
+        //modelBuilder.Entity<ProductCategory>()
+        //    .HasKey(pc => new { pc.ProductId, pc.CategoryId });
+
+        modelBuilder.Entity<Product>()
+            .HasMany(c => c.Categories)
+            .WithMany(c => c.Products)
+            .UsingEntity<ProductCategory>();
+
+        modelBuilder.Entity<Category>()
+            .HasMany(c => c.Products)
+            .WithMany(p => p.Categories)
+            .UsingEntity<ProductCategory>();
 
         modelBuilder.Entity<Product>()
             .HasQueryFilter(p => p.DeletedAt == null);

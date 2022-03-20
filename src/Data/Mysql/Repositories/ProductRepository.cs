@@ -20,8 +20,8 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
     public override async Task<IEnumerable<Product>> GetAllAsync()
     {
         return await _db.Set<Product>()
-            .Include(p => p.ProductCategories)
-            .ThenInclude(pc => pc.Category)
+            .Include(p => p.Categories)
+            //.ThenInclude(pc => pc.Category)
             //.Where(p => p.DeletedAt == null)
             .AsNoTracking()
             .ToListAsync();
@@ -43,8 +43,8 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
         Product? product = await _db.Set<Product>()
             .Where(p => p.Id == id)
             //.Where(p => p.DeletedAt == null)
-            .Include(p => p.ProductCategories)
-            .ThenInclude(pc => pc.Category)
+            .Include(p => p.Categories)
+            //.ThenInclude(pc => pc.Category)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
@@ -53,7 +53,7 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
         return product;
     }
 
-    public async Task SyncCategoriesAsync(Product product, IEnumerable<int> CategoryIds)
+    public async Task SyncCategoriesAsync(Product product, IEnumerable<int> categoryIds)
     {
         var dettachProductCategories = await _db.ProductCategories
             .Where(pc => pc.ProductId == product.Id)
@@ -64,7 +64,7 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
 
         List<ProductCategory> attachProductCategories = new List<ProductCategory>();
 
-        CategoryIds.ToList()
+        categoryIds.ToList()
             .ForEach(c => attachProductCategories
                 .Add(new ProductCategory { 
                     CategoryId = c,

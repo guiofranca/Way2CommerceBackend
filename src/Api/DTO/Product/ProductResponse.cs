@@ -28,6 +28,7 @@ public class ProductResponse
         Code = product.Code;
         Description = product.Description;
         Price = product.Price;
-        Categories = product.ProductCategories.Select(pc => new CategoryResponse(pc.Category)).ToList();
+        //Categories = product.ProductCategories.Select(pc => new CategoryResponse(pc.Category)).ToList();
+        Categories = product.Categories.Select(category => new CategoryResponse(category)).ToList();
     }
 }
