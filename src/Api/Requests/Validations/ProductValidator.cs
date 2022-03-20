@@ -1,9 +1,9 @@
-﻿using Api.DTO.Product;
+﻿using Api.Requests.Product;
 using Domain.Repositories.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.DTO.Validations;
+namespace Api.Requests.Validations;
 public class ProductValidator : AbstractValidator<ProductRequest>
 {
     protected readonly ICategoryRepository _categoryRepository;

@@ -1,4 +1,4 @@
-﻿namespace Api.DTO.Product;
+﻿namespace Api.Requests.Product;
 
 using Domain.Models;
 using Domain.Repositories.Interfaces;

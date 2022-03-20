@@ -1,5 +1,5 @@
-using Api.DTO.Product;
-using Api.DTO.Validations;
+using Api.Requests.Product;
+using Api.Requests.Validations;
 using Domain.Repositories.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;

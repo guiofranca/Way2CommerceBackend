@@ -1,6 +1,6 @@
-﻿namespace Api.DTO.Product;
+﻿namespace Api.Requests.Product;
 
-using Api.DTO.Category;
+using Api.Requests.Category;
 using Domain.Models;
 public class ProductResponse
 {

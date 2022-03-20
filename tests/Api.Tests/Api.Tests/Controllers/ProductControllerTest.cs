@@ -1,5 +1,5 @@
 using Api.Controllers;
-using Api.DTO.Product;
+using Api.Requests.Product;
 using Domain.Models;
 using Domain.Models.Relations;
 using Domain.Repositories.Interfaces;

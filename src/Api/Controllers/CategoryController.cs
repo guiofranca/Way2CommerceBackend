@@ -1,4 +1,4 @@
-﻿using Api.DTO.Category;
+﻿using Api.Requests.Category;
 using Domain.Models;
 using Domain.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-﻿namespace Api.DTO.Category;
+﻿namespace Api.Requests.Category;
 
 using Domain.Models;
 
