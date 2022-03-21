@@ -1,12 +1,14 @@
 ﻿using Api.Requests.Category;
 using Domain.Models;
 using Domain.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class CategoryController : ControllerBase
 {
     private readonly ICategoryRepository _categoryRepository;

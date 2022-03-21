@@ -1,11 +1,16 @@
-﻿using Domain.Models;
+﻿using Domain.Identity;
+using Domain.Identity.Relations;
+using Domain.Models;
 using Domain.Models.Relations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Mysql.Identity;
 
 namespace Mysql.Context;
 
-public class DataContext : DbContext
+public class DataContext : IdentityDbContext<ApplicationUser>
 {
     public DataContext(DbContextOptions options) : base(options) { }
     public DataContext() { }
@@ -32,10 +37,7 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder
-        //     .ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        //modelBuilder.Entity<ProductCategory>()
-        //    .HasKey(pc => new { pc.ProductId, pc.CategoryId });
+        base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Product>()
             .HasMany(c => c.Categories)
@@ -52,6 +54,11 @@ public class DataContext : DbContext
 
         modelBuilder.Entity<Category>()
             .HasQueryFilter(p => p.DeletedAt == null);
+
+        modelBuilder.Entity<IdentityRole>().HasData(
+            new IdentityRole { Name = "Administrator", NormalizedName = "ADMINISTRATOR" },
+            new IdentityRole { Name = "Moderator", NormalizedName = "MODERATOR" },
+            new IdentityRole { Name = "User", NormalizedName = "USER" });
     }
 
     public DbSet<Product> Products { get; set; }

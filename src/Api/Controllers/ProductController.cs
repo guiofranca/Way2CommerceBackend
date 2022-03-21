@@ -1,12 +1,14 @@
 ﻿using Api.Requests.Product;
 using Domain.Models;
 using Domain.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
 public class ProductController : ControllerBase
 {
     private readonly IProductRepository _productRepository;
@@ -42,6 +44,7 @@ public class ProductController : ControllerBase
 
     //POST api/<ProductController>
     [HttpPost]
+    [Authorize(Roles = "Moderator")]
     public async Task<ActionResult<int>> Create(ProductRequest productRequest)
     {
         //if(ModelState.IsValid) return Created(nameof(Get), productRequest);
