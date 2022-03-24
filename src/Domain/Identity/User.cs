@@ -9,13 +9,13 @@ namespace Domain.Identity;
 
 public class User
 {
-    public string UserName { get; set; } = String.Empty;
+    public string Name { get; set; } = String.Empty;
     public string Email { get; set; } = String.Empty;
     public IEnumerable<Role> Roles { get; set; } = Enumerable.Empty<Role>();
 
-    public User(string userName, string email)
+    public User(string name, string email)
     {
-        UserName = userName;
+        Name = name;
         Email = email;
     }
 }

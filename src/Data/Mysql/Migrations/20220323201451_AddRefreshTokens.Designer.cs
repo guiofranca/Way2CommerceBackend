@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mysql.Context;
 
@@ -10,9 +11,10 @@ using Mysql.Context;
 namespace Mysql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220323201451_AddRefreshTokens")]
+    partial class AddRefreshTokens
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,22 +255,22 @@ namespace Mysql.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9fcdf677-4cf7-4285-ae69-533c0445a932"),
-                            ConcurrencyStamp = "d2114837-b063-4ea6-a360-7025237840ee",
+                            Id = new Guid("f404529e-b161-4e80-8cf3-7002a9b6ac0a"),
+                            ConcurrencyStamp = "4a112b52-c87e-4107-9e69-f3be6021f9ab",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("2ae42959-2a21-4f41-b840-a67cee4241f9"),
-                            ConcurrencyStamp = "8ae8824a-469b-4e3e-875c-f6e7fb8339cb",
+                            Id = new Guid("7ccac6c9-e8f4-4389-9f81-1dcaec6f4c6c"),
+                            ConcurrencyStamp = "5fc87889-ead7-4bc6-8107-dad06dac920a",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         },
                         new
                         {
-                            Id = new Guid("008d7a59-16d1-4b49-b84b-0b24d16eb3fb"),
-                            ConcurrencyStamp = "ca93f4b2-a01d-4a66-bc85-2dea3ed5736c",
+                            Id = new Guid("b4ef000d-997c-492d-b152-66723fb18893"),
+                            ConcurrencyStamp = "2f173aa1-08bf-4fb7-90f4-281d5a0ff0a5",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -302,12 +304,6 @@ namespace Mysql.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)

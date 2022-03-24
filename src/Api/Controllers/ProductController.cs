@@ -44,6 +44,7 @@ public class ProductController : ControllerBase
 
     //POST api/<ProductController>
     [HttpPost]
+    [Authorize(Roles = "Administrator")]
     [Authorize(Roles = "Moderator")]
     public async Task<ActionResult<int>> Create(ProductRequest productRequest)
     {
@@ -57,6 +58,8 @@ public class ProductController : ControllerBase
 
     //PATCH api/<ProductController>/5
     [HttpPatch("{id}")]
+    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Moderator")]
     public async Task<ActionResult> Patch(int id, ProductRequest productRequest)
     {
         Product product = productRequest.MakeProductFromRequest(id);
@@ -67,6 +70,7 @@ public class ProductController : ControllerBase
 
     //DELETE api/<ProductController>/5
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Administrator")]
     public async Task<ActionResult> Delete(int id)
     {
         try
@@ -83,6 +87,7 @@ public class ProductController : ControllerBase
 
     //POST api/<ProductController>/5/restore
     [HttpPost("{id}/restore")]
+    [Authorize(Roles = "Administrator")]
     public async Task<ActionResult> Restore(int id)
     {
         try

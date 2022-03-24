@@ -3,11 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Mysql.Context;
 using Mysql.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mysql.Repositories;
 
@@ -15,9 +10,9 @@ public class UserRepository : IUserRepository<ApplicationUser>
 {
     private readonly DataContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
-    //private readonly JWT _jwt;
-    public UserRepository(DataContext dataContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+    private readonly RoleManager<ApplicationRole> _roleManager;
+
+    public UserRepository(DataContext dataContext, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
     {
         _db = dataContext;
         _userManager = userManager;
@@ -26,7 +21,8 @@ public class UserRepository : IUserRepository<ApplicationUser>
 
     public async Task<ApplicationUser?> GetByIdAsync(string id)
     {
-        return await _userManager.FindByIdAsync(id);
+        return await _userManager
+            .FindByIdAsync(id);
     }
 
     public async Task<IEnumerable<string>> GetUserRolesAsync(ApplicationUser user)
@@ -53,12 +49,13 @@ public class UserRepository : IUserRepository<ApplicationUser>
         throw new NotImplementedException();
     }
 
-    public async Task<ApplicationUser?> RegisterAsync(string userName, string email, string password)
+    public async Task<ApplicationUser?> RegisterAsync(string name, string email, string password)
     {
         ApplicationUser user = new ApplicationUser()
         {
-            UserName = userName,
+            Name = name,
             Email = email,
+            UserName = email,
         };
 
         IdentityResult? result = await _userManager.CreateAsync(user, password);
@@ -86,6 +83,7 @@ public class UserRepository : IUserRepository<ApplicationUser>
 
     public async Task<bool> AddRole(ApplicationUser user, string role)
     {
+        var rol = await _roleManager.FindByNameAsync(role);
         var result = await _userManager.AddToRoleAsync(user, role);
 
         return result.Succeeded;

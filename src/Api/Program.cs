@@ -1,5 +1,7 @@
+using Api.Controllers;
 using Api.Requests.Product;
 using Api.Requests.Validations;
+using Api.Service;
 using Domain.Repositories.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -60,8 +62,12 @@ builder.Services.AddScoped<DataContext, DataContext>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IUserRepository<ApplicationUser>, UserRepository>();
+builder.Services.AddScoped<RefreshTokenRepository>();
 
 builder.Services.AddTransient<IValidator<ProductRequest>, ProductValidator>();
+builder.Services.AddTransient<IValidator<AuthController.RegisterRequest>, RegistrationValidator>();
+
+builder.Services.AddScoped<JwtTokenService>();
 
 builder.Services.AddCors(options =>
 {
@@ -84,49 +90,35 @@ builder.Services
         options.TokenValidationParameters = new TokenValidationParameters()
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisKeyMustBeAtLeast16Characters")),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"])),
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateLifetime = true,
-            ClockSkew = TimeSpan.FromMinutes(24),
-            RequireExpirationTime = false,
+            ClockSkew = TimeSpan.FromDays(0),
+            RequireExpirationTime = true,
         };
-
-        /*options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-        };*/
     });
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-{
-    // Password settings.
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
-    options.Password.RequiredUniqueChars = 1;
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => {
+        // Password settings.
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireNonAlphanumeric = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequiredLength = 8;
+        options.Password.RequiredUniqueChars = 1;
 
-    // Lockout settings.
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.AllowedForNewUsers = true;
+        // Lockout settings.
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.AllowedForNewUsers = true;
 
-    // User settings.
-    options.User.AllowedUserNameCharacters =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = true;
+        // User settings.
+        options.User.RequireUniqueEmail = true;
 
-    // SignIn settings
-    options.SignIn.RequireConfirmedAccount = false;
-})
+        // SignIn settings
+        options.SignIn.RequireConfirmedAccount = false;
+    })
     .AddEntityFrameworkStores<DataContext>();
 
 var app = builder.Build();

@@ -10,7 +10,7 @@ using Mysql.Identity;
 
 namespace Mysql.Context;
 
-public class DataContext : IdentityDbContext<ApplicationUser>
+public class DataContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
     public DataContext(DbContextOptions options) : base(options) { }
     public DataContext() { }
@@ -55,13 +55,14 @@ public class DataContext : IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<Category>()
             .HasQueryFilter(p => p.DeletedAt == null);
 
-        modelBuilder.Entity<IdentityRole>().HasData(
-            new IdentityRole { Name = "Administrator", NormalizedName = "ADMINISTRATOR" },
-            new IdentityRole { Name = "Moderator", NormalizedName = "MODERATOR" },
-            new IdentityRole { Name = "User", NormalizedName = "USER" });
+        modelBuilder.Entity<ApplicationRole>().HasData(
+            new ApplicationRole { Id = new Guid("84f4de2d-45e1-44d6-ba6e-a99f2e9978d4"), Name = "Administrator", NormalizedName = "ADMINISTRATOR" },
+            new ApplicationRole { Id = new Guid("0bde5614-57c6-42ae-b8ca-d9310c7e5937"), Name = "Moderator", NormalizedName = "MODERATOR" },
+            new ApplicationRole { Id = new Guid("1674307c-053c-4785-b567-87131195eae2"), Name = "User", NormalizedName = "USER" });
     }
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<ProductCategory> ProductCategories { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 }

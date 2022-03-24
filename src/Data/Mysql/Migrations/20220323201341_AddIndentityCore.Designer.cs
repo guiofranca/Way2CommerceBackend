@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mysql.Context;
 
@@ -10,9 +11,10 @@ using Mysql.Context;
 namespace Mysql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220323201341_AddIndentityCore")]
+    partial class AddIndentityCore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,22 +255,22 @@ namespace Mysql.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9fcdf677-4cf7-4285-ae69-533c0445a932"),
-                            ConcurrencyStamp = "d2114837-b063-4ea6-a360-7025237840ee",
+                            Id = new Guid("84f4de2d-45e1-44d6-ba6e-a99f2e9978d4"),
+                            ConcurrencyStamp = "cbc11dfe-b823-47f9-bc5d-0b23e9aa7de5",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("2ae42959-2a21-4f41-b840-a67cee4241f9"),
-                            ConcurrencyStamp = "8ae8824a-469b-4e3e-875c-f6e7fb8339cb",
+                            Id = new Guid("0bde5614-57c6-42ae-b8ca-d9310c7e5937"),
+                            ConcurrencyStamp = "107d57e9-c69b-462f-b871-16a49d8670e8",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         },
                         new
                         {
-                            Id = new Guid("008d7a59-16d1-4b49-b84b-0b24d16eb3fb"),
-                            ConcurrencyStamp = "ca93f4b2-a01d-4a66-bc85-2dea3ed5736c",
+                            Id = new Guid("1674307c-053c-4785-b567-87131195eae2"),
+                            ConcurrencyStamp = "19d1792f-1058-445c-9aef-9ee490123cf0",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -302,12 +304,6 @@ namespace Mysql.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -355,25 +351,6 @@ namespace Mysql.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Mysql.Identity.RefreshToken", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("Expiry")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("Domain.Models.Relations.ProductCategory", b =>
@@ -440,17 +417,6 @@ namespace Mysql.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Mysql.Identity.RefreshToken", b =>
-                {
-                    b.HasOne("Mysql.Identity.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
