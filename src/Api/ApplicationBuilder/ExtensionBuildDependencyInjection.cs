@@ -10,9 +10,9 @@ using Mysql.Repositories;
 
 namespace Api.ApplicationBuilder;
 
-public static class BuildDependencyInjection
+public static class ExtensionBuildDependencyInjection
 {
-    internal static void Prepare(WebApplicationBuilder builder)
+    internal static void InjectDependencies(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<DataContext>();
         builder.Services.AddScoped<DataContext, DataContext>();

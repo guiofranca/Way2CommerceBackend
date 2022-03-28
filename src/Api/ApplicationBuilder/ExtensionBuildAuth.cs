@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Api.ApplicationBuilder;
 
-public static class BuildAuth
+public static class ExtensionBuildAuth
 {
-    public static void Prepare(WebApplicationBuilder builder)
+    public static void BuildAuth(this WebApplicationBuilder builder)
     {
         builder.Services
             .AddHttpContextAccessor()
@@ -55,7 +55,7 @@ public static class BuildAuth
         .AddEntityFrameworkStores<DataContext>();
     }
 
-    internal static void App(WebApplication app)
+    internal static void UseAuth(this WebApplication app)
     {
         app.UseAuthentication();
 

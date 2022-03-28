@@ -1,8 +1,8 @@
 ﻿namespace Api.ApplicationBuilder;
 
-public static class BuildCors
+public static class ExtensionBuildCors
 {
-    internal static void Prepare(WebApplicationBuilder builder)
+    internal static void BuildCorsPolicy(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors(options =>
         {
@@ -13,7 +13,7 @@ public static class BuildCors
         });
     }
 
-    internal static void App(WebApplication app)
+    internal static void UseCorsPolicy(this WebApplication app)
     {
         app.UseCors("CorsPolicy");
     }

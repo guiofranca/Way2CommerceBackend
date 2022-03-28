@@ -2,9 +2,9 @@
 
 namespace Api.ApplicationBuilder;
 
-public static class BuildSwagger
+public static class ExtensionBuildSwagger
 {
-    public static void Prepare(WebApplicationBuilder builder)
+    public static void BuildSwagger(this WebApplicationBuilder builder)
     {
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(options =>
@@ -43,7 +43,7 @@ public static class BuildSwagger
         });
     }
 
-    internal static void App(WebApplication app)
+    internal static void UseDevSwagger(this WebApplication app)
     {
         if (app.Environment.IsDevelopment())
         {
