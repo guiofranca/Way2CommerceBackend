@@ -26,8 +26,13 @@ public class DataContext : IdentityDbContext<ApplicationUser, ApplicationRole, G
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (optionsBuilder.IsConfigured) return;
+
+        string? configPath = Directory.GetParent(AppContext.BaseDirectory)?.FullName;
+
+        if (configPath == null) throw new FileNotFoundException("Config file not found", "appsettings.json");
+
         IConfiguration config = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
+            .SetBasePath(configPath)
             .AddJsonFile("appsettings.json")
             .Build();
 
@@ -61,8 +66,8 @@ public class DataContext : IdentityDbContext<ApplicationUser, ApplicationRole, G
             new ApplicationRole { Id = new Guid("1674307c-053c-4785-b567-87131195eae2"), Name = "User", NormalizedName = "USER" });
     }
 
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<ProductCategory> ProductCategories { get; set; }
-    public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<Product>? Products { get; set; }
+    public DbSet<Category>? Categories { get; set; }
+    public DbSet<ProductCategory>? ProductCategories { get; set; }
+    public DbSet<RefreshToken>? RefreshTokens { get; set; }
 }

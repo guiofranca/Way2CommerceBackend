@@ -21,7 +21,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{661BED31-6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mysql.Test", "tests\Data\Mysql.Test\Mysql.Test.csproj", "{B08C7C5E-847A-445A-BD3C-C38247D63362}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Tests", "tests\Api.Tests\Api.Tests\Api.Tests.csproj", "{0167B53A-DE1F-4E44-99B8-57E446CE110C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Tests", "tests\Api.Tests\Api.Tests\Api.Tests.csproj", "{0167B53A-DE1F-4E44-99B8-57E446CE110C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FC8189EE-954D-4F98-9816-A43821004797}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,7 +10,6 @@ namespace Api.Requests.Validations;
 public class RegistrationValidator : AbstractValidator<AuthController.RegisterRequest>
 {
     protected readonly IUserRepository<ApplicationUser> _userRepository;
-    protected readonly PasswordValidator<ApplicationUser> _passwordValidator;
 
     public RegistrationValidator(IUserRepository<ApplicationUser> userRepository)
     {
@@ -40,16 +39,16 @@ public class RegistrationValidator : AbstractValidator<AuthController.RegisterRe
     private bool BeStrong(string password)
     {
         if (password == null) return false;
-        if (password.Count(p => char.IsUpper(p)) == 0) return false;
-        if (password.Count(p => char.IsLower(p)) == 0) return false;
-        if (password.Count(p => char.IsDigit(p)) == 0) return false;
-        if (password.Count(p => !char.IsLetterOrDigit(p)) == 0) return false;
+        if (!password.Any(p => char.IsUpper(p))) return false;
+        if (!password.Any(p => char.IsLower(p))) return false;
+        if (!password.Any(p => char.IsDigit(p))) return false;
+        if (!password.Any(p => !char.IsLetterOrDigit(p))) return false;
 
         return true;
     }
 
     private async Task<bool> NotBeTaken(string email, CancellationToken arg2)
     {
-        return !(await _userRepository.EmailIsTakenAsync(email));
+        return !await _userRepository.EmailIsTakenAsync(email);
     }
 }

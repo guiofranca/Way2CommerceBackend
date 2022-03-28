@@ -44,8 +44,7 @@ public class ProductController : ControllerBase
 
     //POST api/<ProductController>
     [HttpPost]
-    [Authorize(Roles = "Administrator")]
-    [Authorize(Roles = "Moderator")]
+    [Authorize(Roles = "Moderator,Administrator")]
     public async Task<ActionResult<int>> Create(ProductRequest productRequest)
     {
         //if(ModelState.IsValid) return Created(nameof(Get), productRequest);
@@ -58,8 +57,7 @@ public class ProductController : ControllerBase
 
     //PATCH api/<ProductController>/5
     [HttpPatch("{id}")]
-    [Authorize(Roles = "Administrator")]
-    [Authorize(Roles = "Moderator")]
+    [Authorize(Roles = "Administrator,Moderator")]
     public async Task<ActionResult> Patch(int id, ProductRequest productRequest)
     {
         Product product = productRequest.MakeProductFromRequest(id);

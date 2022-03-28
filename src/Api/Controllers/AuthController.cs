@@ -47,7 +47,10 @@ public class AuthController : ControllerBase
 
         if (user == null) return BadRequest("Could not create user");
 
-        IEnumerable<string>? roles = await _userRepository.GetUserRolesAsync(user);
+        IEnumerable<string> roles = new string[] { };
+
+        if(await _userRepository.AddRole(user, "User")) roles = new string[] { "User" };
+
         string token = _jwtTokenService.GenerateToken(user, roles);
         string refreshToken = await _jwtTokenService.GenerateRefreshToken(user);
         return Created("", new RegisterResponse(registerRequest.Name, registerRequest.Email, token, refreshToken));
@@ -64,7 +67,7 @@ public class AuthController : ControllerBase
         string refreshToken = await _jwtTokenService.GenerateNewTokenBasedOnRefreshToken(user, refreshTokenRequest.RefreshToken);
         IEnumerable<string>? roles = await _userRepository.GetUserRolesAsync(user);
         string token = _jwtTokenService.GenerateToken(user, roles);
-        return Ok(new RefreshTokenResponse(token, refreshToken));        
+        return Ok(new RefreshTokenResponse(token, refreshToken));
     }
 
     [HttpPost("AddRole")]

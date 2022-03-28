@@ -6,24 +6,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddFluentValidation();
 
-BuildSwagger.Prepare(builder);
+builder.BuildSwagger();
 
-BuildDependencyInjection.Prepare(builder);
+builder.InjectDependencies();
 
-BuildCors.Prepare(builder);
+builder.BuildCorsPolicy();
 
-BuildAuth.Prepare(builder);
+builder.BuildAuth();
 
 var app = builder.Build();
 
-BuildSwagger.App(app);
+app.UseDevSwagger();
 
 app.UseHttpsRedirection();
 
-BuildAuth.App(app);
+app.UseAuth();
 
 app.MapControllers();
 
-BuildCors.App(app);
+app.UseCorsPolicy();
 
 app.Run();

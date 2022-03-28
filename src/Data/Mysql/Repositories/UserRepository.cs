@@ -10,13 +10,11 @@ public class UserRepository : IUserRepository<ApplicationUser>
 {
     private readonly DataContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<ApplicationRole> _roleManager;
 
-    public UserRepository(DataContext dataContext, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+    public UserRepository(DataContext dataContext, UserManager<ApplicationUser> userManager)
     {
         _db = dataContext;
         _userManager = userManager;
-        _roleManager = roleManager;
     }
 
     public async Task<ApplicationUser?> GetByIdAsync(string id)
@@ -30,12 +28,12 @@ public class UserRepository : IUserRepository<ApplicationUser>
         return await _userManager.GetRolesAsync(user);
     }
 
-    public async Task<bool> EmailIsTakenAsync(string email, bool exclude = false)
+    public async Task<bool> EmailIsTakenAsync(string email, bool excludeOwnEmail = false)
     {
         var query = _db.Set<ApplicationUser>()
             .Where(u => u.Email == email);
 
-        if (exclude) query = query.Where(u => u.Email != email);
+        if (excludeOwnEmail) query = query.Where(u => u.Email != email);
 
         ApplicationUser? user =  await query
             .AsNoTracking()
@@ -83,7 +81,6 @@ public class UserRepository : IUserRepository<ApplicationUser>
 
     public async Task<bool> AddRole(ApplicationUser user, string role)
     {
-        var rol = await _roleManager.FindByNameAsync(role);
         var result = await _userManager.AddToRoleAsync(user, role);
 
         return result.Succeeded;

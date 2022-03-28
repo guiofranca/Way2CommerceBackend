@@ -29,7 +29,7 @@ public class JwtTokenService
 
     public string GenerateToken(ApplicationUser user, IEnumerable<string> roles)
     {
-        string expirationTimestamp = (new DateTimeOffset(DateTime.Now.AddSeconds(TokenExpirationInMinutes)).ToUnixTimeSeconds()).ToString();
+        string expirationTimestamp = new DateTimeOffset(DateTime.Now.AddMinutes(TokenExpirationInMinutes)).ToUnixTimeSeconds().ToString();
 
         var claims = new List<Claim>
         {
@@ -87,9 +87,16 @@ public class JwtTokenService
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
-        if (securityToken is not JwtSecurityToken jwtSecurityToken || 
-            !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+        if (securityToken is not JwtSecurityToken jwtSecurityToken
+            || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+        {
             throw new SecurityTokenException("Invalid token");
+        }
+
+        if (jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier) == null)
+        {
+            throw new SecurityTokenException("Invalid token");
+        }
 
         return principal.FindFirstValue(ClaimTypes.NameIdentifier);
 
