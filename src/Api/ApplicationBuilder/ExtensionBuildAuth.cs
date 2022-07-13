@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using Mysql.Context;
 using Mysql.Identity;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 namespace Api.ApplicationBuilder;
@@ -10,6 +11,10 @@ public static class ExtensionBuildAuth
 {
     public static void BuildAuth(this WebApplicationBuilder builder)
     {
+        //Disable default claim names by Identity
+        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Append(new KeyValuePair<string, string>("roles", "roles"));
+
         builder.Services
             .AddHttpContextAccessor()
             .AddAuthorization()
@@ -29,6 +34,7 @@ public static class ExtensionBuildAuth
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.FromDays(0),
                     RequireExpirationTime = true,
+                    RoleClaimType = "roles", //https://docs.microsoft.com/en-us/aspnet/core/security/authentication/claims?view=aspnetcore-6.0
                 };
             });
 

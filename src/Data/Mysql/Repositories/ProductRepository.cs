@@ -1,15 +1,9 @@
 ﻿using Domain.Models;
 using Domain.Models.Relations;
 using Domain.Repositories.Interfaces;
-using Domain.Repositories.Interfaces.Shared;
 using Microsoft.EntityFrameworkCore;
 using Mysql.Context;
 using Mysql.Repositories.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mysql.Repositories;
 
@@ -55,11 +49,11 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
 
     public async Task SyncCategoriesAsync(Product product, IEnumerable<int> categoryIds)
     {
-        var dettachProductCategories = await _db.ProductCategories
+        var dettachProductCategories = await _db.Set<ProductCategory>()
             .Where(pc => pc.ProductId == product.Id)
             .ToListAsync();
 
-        _db.ProductCategories
+        _db.Set<ProductCategory>()
             .RemoveRange(dettachProductCategories);
 
         List<ProductCategory> attachProductCategories = new List<ProductCategory>();
@@ -72,7 +66,7 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
                 })
             );
 
-        await _db.ProductCategories.AddRangeAsync(attachProductCategories);
+        await _db.Set<ProductCategory>().AddRangeAsync(attachProductCategories);
         await _db.SaveChangesAsync();
 
         return;

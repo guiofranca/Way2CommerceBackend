@@ -39,4 +39,15 @@ public class RefreshTokenRepository
 
         return await _db.SaveChangesAsync() > 0;
     }
+
+    public async Task RemoveAllRefreshTokensFromUser(ApplicationUser user)
+    {
+        var refreshTokens = _db.Set<RefreshToken>()
+            .Where(refreshToken => refreshToken.UserId == user.Id)
+            .ToList();
+        
+        _db.Set<RefreshToken>().RemoveRange(refreshTokens);
+
+        await _db.SaveChangesAsync();
+    }
 }

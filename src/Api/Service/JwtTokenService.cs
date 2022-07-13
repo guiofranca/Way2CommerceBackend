@@ -27,14 +27,17 @@ public class JwtTokenService
         _refreshTokenRepository = refreshTokenRepository;
     }
 
-    public string GenerateToken(ApplicationUser user, IEnumerable<string> roles)
+    public async Task<string> GenerateToken(ApplicationUser user, IEnumerable<string> roles, string? refreshToken = null)
     {
         string expirationTimestamp = new DateTimeOffset(DateTime.Now.AddMinutes(TokenExpirationInMinutes)).ToUnixTimeSeconds().ToString();
 
+        if(string.IsNullOrEmpty(refreshToken)) refreshToken = await GenerateRefreshToken(user);
+
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Exp, expirationTimestamp),
+            new Claim(JwtRegisteredClaimNames.Jti, refreshToken),
         };
 
         foreach (var role in roles)
@@ -66,15 +69,7 @@ public class JwtTokenService
         throw new Exception("Could not generate refresh token");
     }
 
-    public async Task<string> GenerateNewTokenBasedOnRefreshToken(ApplicationUser user, string token)
-    {
-        RefreshToken refreshToken = await _refreshTokenRepository.GetByIdAndUser(new Guid(token), user);
-        await _refreshTokenRepository.Remove(refreshToken);
-
-        return await GenerateRefreshToken(user);
-    }
-
-    public string GetUserIdFromExpiredToken(string? token)
+    public string GetPropertyFromToken(string? token, string claim)
     {
         var tokenValidationParameters = new TokenValidationParameters
         {
@@ -93,12 +88,18 @@ public class JwtTokenService
             throw new SecurityTokenException("Invalid token");
         }
 
-        if (jwtSecurityToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier) == null)
+        //ClaimTypes.NameIdentifier
+
+        if (!principal.HasClaim(c => c.Type == claim))
         {
             throw new SecurityTokenException("Invalid token");
         }
 
-        return principal.FindFirstValue(ClaimTypes.NameIdentifier);
+        return principal.Claims.First(c => c.Type == claim).Value;
+    }
 
+    public async Task LogoutUser(ApplicationUser user)
+    {
+        await _refreshTokenRepository.RemoveAllRefreshTokensFromUser(user);
     }
 }

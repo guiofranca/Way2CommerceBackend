@@ -29,7 +29,7 @@ public class DataContext : IdentityDbContext<ApplicationUser, ApplicationRole, G
 
         string? configPath = Directory.GetParent(AppContext.BaseDirectory)?.FullName;
 
-        if (configPath == null) throw new FileNotFoundException("Config file not found", "appsettings.json");
+        if (string.IsNullOrEmpty(configPath)) throw new FileNotFoundException("Config file not found", "appsettings.json");
 
         IConfiguration config = new ConfigurationBuilder()
             .SetBasePath(configPath)
